@@ -248,7 +248,8 @@ class TestFlaskIntegration(unittest.TestCase):
         with self.client.session_transaction() as sess:
             csrf_token = sess.get("csrf_token")
 
-        test_url = "http://10.10.10.10/login/secure-banking-account-update"
+        import time
+        test_url = f"http://10.10.10.10/login/secure-banking-account-update-{int(time.time())}"
         scan_res = self.client.post("/scan", data={
             "csrf_token": csrf_token,
             "url": test_url
@@ -264,7 +265,7 @@ class TestFlaskIntegration(unittest.TestCase):
         self.assertIn(db_record["risk_level"], ("Medium", "High"))
 
         # Verify alert created
-        alert = self.db.security_alerts.find_one({"url": test_url})
+        alert = self.db.security_alerts.find_one({"url": test_url}, sort=[("_id", -1)])
         self.assertIsNotNone(alert)
         self.assertEqual(alert["status"], "new")
 

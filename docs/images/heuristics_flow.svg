@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" width="1000" height="520">
+  <defs>
+    <linearGradient id="flowBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0e2a" />
+      <stop offset="100%" stop-color="#050716" />
+    </linearGradient>
+    <linearGradient id="ruleBoxGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141a4a" />
+      <stop offset="100%" stop-color="#0f1438" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1000" height="520" rx="14" fill="url(#flowBg)" stroke="rgba(78, 124, 255, 0.25)" stroke-width="1.5" />
+
+  <!-- Header -->
+  <g transform="translate(40, 36)">
+    <text x="0" y="20" font-family="'Inter', sans-serif" font-size="20" font-weight="800" fill="#ffffff">
+      EXPLAINABLE HEURISTIC DETECTION &amp; SCORING PIPELINE
+    </text>
+    <text x="0" y="38" font-family="'JetBrains Mono', monospace" font-size="11" fill="#7888b5">
+      Input Normalization &rarr; Static Lexical Inspection &rarr; Bounded Weight Aggregation &rarr; Categorization
+    </text>
+  </g>
+
+  <!-- Step 1: Input Normalization -->
+  <g transform="translate(40, 95)">
+    <rect width="170" height="380" rx="10" fill="url(#ruleBoxGrad)" stroke="rgba(78, 124, 255, 0.25)" stroke-width="1" />
+    <rect width="170" height="32" rx="10" fill="rgba(78, 124, 255, 0.15)" />
+    <text x="14" y="21" font-family="'Inter', sans-serif" font-size="11" font-weight="700" fill="#4e7cff">1. NORMALIZATION</text>
+    
+    <g transform="translate(14, 46)">
+      <text x="0" y="16" font-family="'Inter', sans-serif" font-size="11" font-weight="700" fill="#fff">RFC 3986 Parser</text>
+      <text x="0" y="34" font-family="'Inter', sans-serif" font-size="10" fill="#9aa3c7">&#8226; Strips leading/trailing ws</text>
+      <text x="0" y="52" font-family="'Inter', sans-serif" font-size="10" fill="#9aa3c7">&#8226; Prepends http:// if bare</text>
+      <text x="0" y="70" font-family="'Inter', sans-serif" font-size="10" fill="#9aa3c7">&#8226; Lowercases authority</text>
+      <text x="0" y="88" font-family="'Inter', sans-serif" font-size="10" fill="#9aa3c7">&#8226; Extracts host, path, query</text>
+      <text x="0" y="106" font-family="'Inter', sans-serif" font-size="10" fill="#9aa3c7">&#8226; Resolves port / auth tokens</text>
+
+      <rect x="0" y="130" width="142" height="60" rx="6" fill="#0c102a" stroke="rgba(0, 240, 255, 0.3)" stroke-width="1" />
+      <text x="8" y="20" font-family="'JetBrains Mono', monospace" font-size="9" fill="#00c9a7">Zero-Execution:</text>
+      <text x="8" y="34" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#7888b5">No sockets opened.</text>
+      <text x="8" y="48" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#7888b5">No DNS resolution.</text>
+    </g>
+  </g>
+
+  <!-- Step 2: 10 Heuristic Rules Matrix -->
+  <g transform="translate(230, 95)">
+    <rect width="420" height="380" rx="10" fill="url(#ruleBoxGrad)" stroke="rgba(0, 240, 255, 0.25)" stroke-width="1" />
+    <rect width="420" height="32" rx="10" fill="rgba(0, 240, 255, 0.12)" />
+    <text x="16" y="21" font-family="'Inter', sans-serif" font-size="11" font-weight="700" fill="#00f0ff">2. 10 STATIC HEURISTIC EVALUATORS (WEIGHTS)</text>
+
+    <!-- Table of Rules -->
+    <g transform="translate(14, 44)">
+      <!-- Rule 1 -->
+      <text x="0" y="14" font-family="'Inter', sans-serif" font-size="10.5" font-weight="700" fill="#fff">IP-Address Hostname</text>
+      <text x="260" y="14" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ffd166">+25 pts</text>
+      <text x="0" y="28" font-family="'Inter', sans-serif" font-size="9.5" fill="#7888b5">Detects raw IPv4/IPv6 avoiding DNS reputation</text>
+
+      <!-- Rule 2 -->
+      <text x="0" y="50" font-family="'Inter', sans-serif" font-size="10.5" font-weight="700" fill="#fff">Brand Typosquatting (Levenshtein)</text>
+      <text x="260" y="50" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ffd166">+25 pts</text>
+      <text x="0" y="64" font-family="'Inter', sans-serif" font-size="9.5" fill="#7888b5">Distance &le; 2 from PayPal, Apple, Google, Microsoft</text>
+
+      <!-- Rule 3 -->
+      <text x="0" y="86" font-family="'Inter', sans-serif" font-size="10.5" font-weight="700" fill="#fff">Credential Trap '@' Symbol</text>
+      <text x="260" y="86" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ffd166">+20 pts</text>
+      <text x="0" y="100" font-family="'Inter', sans-serif" font-size="9.5" fill="#7888b5">RFC userinfo prefix obfuscating the true host</text>
+
+      <!-- Rule 4 -->
+      <text x="0" y="122" font-family="'Inter', sans-serif" font-size="10.5" font-weight="700" fill="#fff">Suspicious High-Risk Keywords</text>
+      <text x="260" y="122" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ffd166">+15 pts</text>
+      <text x="0" y="136" font-family="'Inter', sans-serif" font-size="9.5" fill="#7888b5">'verify-account', 'banking-update', 'login-token'</text>
+
+      <!-- Rule 5 -->
+      <text x="0" y="158" font-family="'Inter', sans-serif" font-size="10.5" font-weight="700" fill="#fff">Excessive Subdomains (&gt; 3)</text>
+      <text x="260" y="158" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ffd166">+15 pts</text>
+      <text x="0" y="172" font-family="'Inter', sans-serif" font-size="9.5" fill="#7888b5">Domain stacking to mimic enterprise authorities</text>
+
+      <!-- Rule 6 -->
+      <text x="0" y="194" font-family="'Inter', sans-serif" font-size="10.5" font-weight="700" fill="#fff">High-Entropy Hex / Base64 Query</text>
+      <text x="260" y="194" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ffd166">+15 pts</text>
+      <text x="0" y="208" font-family="'Inter', sans-serif" font-size="9.5" fill="#7888b5">Obfuscated payload strings or session trackers</text>
+
+      <!-- Rule 7 -->
+      <text x="0" y="230" font-family="'Inter', sans-serif" font-size="10.5" font-weight="700" fill="#fff">Known URL Shortener Service</text>
+      <text x="260" y="230" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ffd166">+15 pts</text>
+      <text x="0" y="244" font-family="'Inter', sans-serif" font-size="9.5" fill="#7888b5">bit.ly, tinyurl, t.co masking destination URL</text>
+
+      <!-- Rule 8 -->
+      <text x="0" y="266" font-family="'Inter', sans-serif" font-size="10.5" font-weight="700" fill="#fff">Dangerous High-Abuse TLD</text>
+      <text x="260" y="266" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ffd166">+10 pts</text>
+      <text x="0" y="280" font-family="'Inter', sans-serif" font-size="9.5" fill="#7888b5">.zip, .mov, .top, .xyz, .click, .fit, .surf</text>
+
+      <!-- Rule 9 & 10 -->
+      <text x="0" y="302" font-family="'Inter', sans-serif" font-size="10.5" font-weight="700" fill="#fff">Insecure HTTP Scheme / Length Anomalies</text>
+      <text x="260" y="302" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ffd166">+15 pts</text>
+      <text x="0" y="316" font-family="'Inter', sans-serif" font-size="9.5" fill="#7888b5">Unencrypted transport + URLs exceeding 75 chars</text>
+    </g>
+  </g>
+
+  <!-- Step 3: Bounded Risk Score & Classification -->
+  <g transform="translate(670, 95)">
+    <rect width="290" height="380" rx="10" fill="url(#ruleBoxGrad)" stroke="rgba(255, 71, 87, 0.25)" stroke-width="1" />
+    <rect width="290" height="32" rx="10" fill="rgba(255, 71, 87, 0.12)" />
+    <text x="16" y="21" font-family="'Inter', sans-serif" font-size="11" font-weight="700" fill="#ff6b81">3. BOUNDED SCORE &amp; CLASSIFICATION</text>
+
+    <!-- Score Formula -->
+    <g transform="translate(16, 46)">
+      <rect width="258" height="60" rx="6" fill="#101538" stroke="rgba(78, 124, 255, 0.2)" stroke-width="1" />
+      <text x="12" y="22" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#00f0ff">Score = min(100, &Sigma; w_i)</text>
+      <text x="12" y="44" font-family="'Inter', sans-serif" font-size="9.5" fill="#7888b5">Deterministic sum capped at 100</text>
+    </g>
+
+    <!-- Tiers -->
+    <g transform="translate(16, 122)">
+      <!-- Tier 1: Low -->
+      <rect width="258" height="60" rx="6" fill="rgba(0, 201, 167, 0.08)" stroke="#00c9a7" stroke-width="1" />
+      <circle cx="20" cy="30" r="8" fill="#00c9a7" />
+      <text x="36" y="26" font-family="'Inter', sans-serif" font-size="12" font-weight="800" fill="#00c9a7">0 – 39: LOW RISK</text>
+      <text x="36" y="44" font-family="'Inter', sans-serif" font-size="9.5" fill="#9aa3c7">Normal structural properties; safe</text>
+
+      <!-- Tier 2: Medium -->
+      <g transform="translate(0, 68)">
+        <rect width="258" height="60" rx="6" fill="rgba(255, 193, 7, 0.08)" stroke="#ffd166" stroke-width="1" />
+        <circle cx="20" cy="30" r="8" fill="#ffd166" />
+        <text x="36" y="26" font-family="'Inter', sans-serif" font-size="12" font-weight="800" fill="#ffd166">40 – 69: MEDIUM RISK</text>
+        <text x="36" y="44" font-family="'Inter', sans-serif" font-size="9.5" fill="#9aa3c7">Suspicious markers; Alert generated</text>
+      </g>
+
+      <!-- Tier 3: High -->
+      <g transform="translate(0, 136)">
+        <rect width="258" height="60" rx="6" fill="rgba(255, 71, 87, 0.08)" stroke="#ff4757" stroke-width="1" />
+        <circle cx="20" cy="30" r="8" fill="#ff4757" />
+        <text x="36" y="26" font-family="'Inter', sans-serif" font-size="12" font-weight="800" fill="#ff4757">70 – 100: HIGH RISK</text>
+        <text x="36" y="44" font-family="'Inter', sans-serif" font-size="9.5" fill="#9aa3c7">Dangerous indicators; Security Alert</text>
+      </g>
+    </g>
+  </g>
+</svg>

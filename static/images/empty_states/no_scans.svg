@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" width="200" height="160">
+  <defs>
+    <linearGradient id="scanBeam" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4e7cff" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#00f0ff" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="glassCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#192257" />
+      <stop offset="100%" stop-color="#0d1233" />
+    </linearGradient>
+  </defs>
+
+  <!-- Ambient background glow -->
+  <circle cx="100" cy="80" r="65" fill="#4e7cff" opacity="0.08" />
+
+  <!-- Document / Card Stack -->
+  <rect x="55" y="38" width="90" height="92" rx="10" fill="url(#glassCard)" stroke="rgba(78, 124, 255, 0.3)" stroke-width="1.5" />
+  
+  <!-- Radar Ring -->
+  <circle cx="100" cy="74" r="30" fill="none" stroke="rgba(78, 124, 255, 0.2)" stroke-width="1.5" stroke-dasharray="4,4" />
+  <circle cx="100" cy="74" r="18" fill="none" stroke="rgba(0, 240, 255, 0.3)" stroke-width="1" />
+  <circle cx="100" cy="74" r="3" fill="#00f0ff" />
+
+  <!-- Scanning Cone Beam -->
+  <path d="M 100,74 L 126,52 A 30,30 0 0,1 130,74 Z" fill="url(#scanBeam)" />
+
+  <!-- Subtle placeholder lines -->
+  <line x1="70" y1="112" x2="130" y2="112" stroke="rgba(78, 124, 255, 0.3)" stroke-width="2.5" stroke-linecap="round" />
+  <line x1="82" y1="120" x2="118" y2="120" stroke="rgba(78, 124, 255, 0.18)" stroke-width="2" stroke-linecap="round" />
+
+  <!-- Small floating tech badges -->
+  <circle cx="44" cy="54" r="4" fill="#4e7cff" opacity="0.6" />
+  <circle cx="156" cy="98" r="5" fill="#00c9a7" opacity="0.5" />
+</svg>

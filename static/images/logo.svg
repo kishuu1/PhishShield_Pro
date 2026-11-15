@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 64" width="320" height="64">
+  <defs>
+    <linearGradient id="logoShieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4e7cff" />
+      <stop offset="60%" stop-color="#3a5ae8" />
+      <stop offset="100%" stop-color="#00c9a7" />
+    </linearGradient>
+    <linearGradient id="logoCoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141a46" />
+      <stop offset="100%" stop-color="#0b0f2a" />
+    </linearGradient>
+    <linearGradient id="logoCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff" />
+      <stop offset="100%" stop-color="#00c9a7" />
+    </linearGradient>
+    <linearGradient id="proGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff" />
+      <stop offset="100%" stop-color="#4e7cff" />
+    </linearGradient>
+    <filter id="logoGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Left Icon Group -->
+  <g transform="translate(6, 6) scale(0.82)">
+    <!-- Shield Outer -->
+    <path d="M 32,4 L 56,13 C 56,40 43,56 32,62 C 21,56 8,40 8,13 Z" 
+          fill="url(#logoShieldGrad)" filter="url(#logoGlow)" opacity="0.5" />
+    <path d="M 32,5 L 54,14 C 54,39 42,54 32,60 C 22,54 10,39 10,14 Z" 
+          fill="url(#logoShieldGrad)" />
+    <!-- Inner Core -->
+    <path d="M 32,10 L 49,18 C 49,36 39,49 32,54 C 25,49 15,36 15,18 Z" 
+          fill="url(#logoCoreGrad)" stroke="rgba(0, 240, 255, 0.5)" stroke-width="1.2" />
+    <!-- Lock -->
+    <rect x="25" y="30" width="14" height="11" rx="2.5" fill="url(#logoCyan)" />
+    <path d="M 27.5,30 L 27.5,25.5 C 27.5,23 29.5,21 32,21 C 34.5,21 36.5,23 36.5,25.5 L 36.5,30" 
+          fill="none" stroke="url(#logoCyan)" stroke-width="2" stroke-linecap="round" />
+    <circle cx="32" cy="35" r="1.5" fill="#0b0f2a" />
+  </g>
+
+  <!-- Typography -->
+  <g transform="translate(68, 0)">
+    <text x="0" y="34" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+          font-size="21" font-weight="800" fill="#ffffff" letter-spacing="-0.3">
+      Phish<tspan fill="#4e7cff">Shield</tspan>
+    </text>
+    
+    <!-- PRO Pill -->
+    <rect x="144" y="17" width="46" height="20" rx="5" fill="url(#proGrad)" opacity="0.18" />
+    <rect x="144" y="17" width="46" height="20" rx="5" fill="none" stroke="url(#logoCyan)" stroke-width="1" />
+    <text x="167" y="31.5" text-anchor="middle" font-family="'Inter', sans-serif" 
+          font-size="11" font-weight="800" fill="#00f0ff" letter-spacing="1.2">PRO</text>
+    
+    <!-- Subtitle -->
+    <text x="1" y="49" font-family="'JetBrains Mono', 'Segoe UI', monospace" 
+          font-size="9" font-weight="600" fill="#7d8ab4" letter-spacing="1">THREAT INTELLIGENCE</text>
+  </g>
+</svg>

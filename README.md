@@ -1,10 +1,43 @@
+<div align="center">
+
+![PhishShield Pro Hero Banner](docs/images/banner.svg)
+
 # PhishShield Pro — Phishing URL Analysis & Threat Intelligence Platform
 
-PhishShield Pro is an enterprise-grade, explainable cybersecurity web application designed to evaluate suspicious URLs through multi-vector static heuristic analysis, calculate real-time bounded risk scores (0–100), cross-reference user-curated local threat intelligence indicators, store audit-trailed results in MongoDB, and deliver executive-grade visual security telemetry.
+[![Python Version](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg?logo=python&logoColor=white)](https://python.org)
+[![Flask Framework](https://img.shields.io/badge/Flask-3.1.0-black.svg?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![MongoDB Engine](https://img.shields.io/badge/MongoDB-Community%208.3-green.svg?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Tests Passing](https://img.shields.io/badge/Tests-28%2F28%20Passing-success.svg?logo=pytest&logoColor=white)](tests/test_phishshield.py)
+[![Security Architecture](https://img.shields.io/badge/Inspection-Zero--Execution%20Sandbox-00c9a7.svg?logo=shield&logoColor=white)](#safe-non-executing-inspection)
+[![UI Framework](https://img.shields.io/badge/UI-Bootstrap%205.3%20%2B%20Chart.js-7952b3.svg?logo=bootstrap&logoColor=white)](#technology-stack)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+*An enterprise-grade, explainable cybersecurity web application designed to evaluate suspicious URLs through multi-vector static heuristic analysis, calculate real-time bounded risk scores (0–100), cross-reference user-curated local threat intelligence indicators, store audit-trailed results in MongoDB, and deliver executive-grade visual security telemetry.*
+
+</div>
+
+---
+
+## Visual Platform Overview
+
+<div align="center">
+
+![PhishShield Pro Dashboard Preview](docs/images/dashboard_preview.svg)
+
+*PhishShield Pro Unified Threat Telemetry Dashboard — Real-time risk distribution, velocity sparklines, quick scanner, and active security triage queue.*
+
+</div>
 
 ---
 
 ## 1. System Architecture & Core Philosophy
+
+### System Architecture Diagram
+<div align="center">
+
+![PhishShield Pro System Architecture](docs/images/architecture.svg)
+
+</div>
 
 ### Safe, Non-Executing Inspection
 A foundational tenet of PhishShield Pro is **zero-execution inspection**. Malicious URLs frequently host browser exploits, credential-harvesting kits, drive-by malware downloads, or tracking web bugs. PhishShield Pro **never performs network requests, DNS resolutions, HTTP fetching, or socket connections to submitted URLs**. Analysis is conducted purely on URL lexical structures, hostname syntax, authority metadata, and pattern encodings.
@@ -176,6 +209,13 @@ To inspect or manage users directly in MongoDB Compass:
 
 ## 6. MongoDB Schema Design & Indexing Strategy
 
+### Database Schema Architecture
+<div align="center">
+
+![MongoDB Schema Architecture](docs/images/mongodb_schema.svg)
+
+</div>
+
 ### 1. `users` Collection
 Stores analyst credentials with bcrypt-hashed passwords.
 ```json
@@ -292,6 +332,13 @@ Immutable record of security and administrative actions.
 ---
 
 ## 7. Explainable Heuristic Detection Rules
+
+### Detection & Scoring Flowchart
+<div align="center">
+
+![Explainable Heuristic Detection & Scoring Pipeline](docs/images/heuristics_flow.svg)
+
+</div>
 
 | Rule ID | Rule Name | Default Weight | Cybersecurity Rationale |
 | :--- | :--- | :---: | :--- |

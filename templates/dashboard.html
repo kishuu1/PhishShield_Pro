@@ -600,8 +600,8 @@
                     </div>
                 {% else %}
                     <div class="text-center py-5" style="color: var(--text-secondary);">
-                        <i class="bi bi-inbox" style="font-size: 36px; opacity: 0.3;"></i>
-                        <p class="mt-2 mb-0" style="font-size: 13px;">No scans recorded yet</p>
+                        <img src="/static/images/empty_states/no_scans.svg" alt="No scans" width="120" class="mb-3 opacity-75">
+                        <p class="mb-0" style="font-size: 13px;">No scans recorded yet</p>
                     </div>
                 {% endif %}
             </div>
@@ -644,9 +644,9 @@
                         {% endfor %}
                     </div>
                 {% else %}
-                    <div class="text-center py-5" style="color: var(--text-secondary);">
-                        <i class="bi bi-shield-check" style="font-size: 36px; color: #00c9a7; opacity: 0.5;"></i>
-                        <p class="mt-2 mb-0" style="font-size: 13px;">No unreviewed security alerts</p>
+                    <div class="text-center py-4" style="color: var(--text-secondary);">
+                        <img src="/static/images/empty_states/no_alerts.svg" alt="No alerts" width="110" class="mb-2 opacity-85">
+                        <p class="mb-0" style="font-size: 13px; font-weight: 600; color: #00c9a7;">No unreviewed security alerts</p>
                         <small style="color: var(--text-muted);">Platform security perimeter is calm</small>
                     </div>
                 {% endif %}

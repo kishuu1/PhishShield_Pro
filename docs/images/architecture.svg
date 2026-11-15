@@ -1,0 +1,203 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 580" width="1000" height="580">
+  <defs>
+    <linearGradient id="archBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080c24" />
+      <stop offset="100%" stop-color="#040614" />
+    </linearGradient>
+    <linearGradient id="cardGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#121844" />
+      <stop offset="100%" stop-color="#0e1336" />
+    </linearGradient>
+    <linearGradient id="blueAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4e7cff" />
+      <stop offset="100%" stop-color="#00f0ff" />
+    </linearGradient>
+    <linearGradient id="greenAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00c9a7" />
+      <stop offset="100%" stop-color="#008060" />
+    </linearGradient>
+    <linearGradient id="purpleAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7052ff" />
+      <stop offset="100%" stop-color="#4e7cff" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="580" fill="url(#archBg)" rx="16" />
+  <rect width="998" height="578" x="1" y="1" fill="none" stroke="rgba(78, 124, 255, 0.2)" stroke-width="1.5" rx="15" />
+
+  <!-- Title Header -->
+  <g transform="translate(40, 42)">
+    <circle cx="16" cy="16" r="16" fill="rgba(78, 124, 255, 0.15)" stroke="#4e7cff" stroke-width="1.5" />
+    <path d="M 16,8 L 24,12 C 24,19 20,23 16,25 C 12,23 8,19 8,12 Z" fill="#4e7cff" />
+    <text x="44" y="18" font-family="'Inter', sans-serif" font-size="20" font-weight="800" fill="#ffffff">
+      SYSTEM ARCHITECTURE &amp; ZERO-EXECUTION DATA FLOW
+    </text>
+    <text x="44" y="34" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="500" fill="#7888b5">
+      PHISHSHIELD PRO // 4-TIER SECURE ANALYTICS PIPELINE
+    </text>
+  </g>
+
+  <!-- TIER 1: Presentation Layer -->
+  <g transform="translate(40, 100)">
+    <rect width="210" height="430" rx="12" fill="url(#cardGrad1)" stroke="rgba(78, 124, 255, 0.25)" stroke-width="1.2" />
+    <rect width="210" height="36" rx="12" fill="rgba(78, 124, 255, 0.12)" />
+    <text x="16" y="24" font-family="'Inter', sans-serif" font-size="13" font-weight="700" fill="#00f0ff">1. PRESENTATION LAYER</text>
+
+    <!-- Component Cards -->
+    <g transform="translate(14, 52)">
+      <rect width="182" height="74" rx="8" fill="#182052" stroke="rgba(78, 124, 255, 0.2)" stroke-width="1" />
+      <text x="12" y="22" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#fff">Cyber Dashboard UI</text>
+      <text x="12" y="40" font-family="'Inter', sans-serif" font-size="10" fill="#9aa3c7">Bootstrap 5.3 + Dark Theme</text>
+      <text x="12" y="56" font-family="'Inter', sans-serif" font-size="10" fill="#00c9a7">&#10003; Responsive Sidebar &amp; Topbar</text>
+    </g>
+
+    <g transform="translate(14, 138)">
+      <rect width="182" height="74" rx="8" fill="#182052" stroke="rgba(78, 124, 255, 0.2)" stroke-width="1" />
+      <text x="12" y="22" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#fff">Visual Telemetry</text>
+      <text x="12" y="40" font-family="'Inter', sans-serif" font-size="10" fill="#9aa3c7">Chart.js 4.4 Analytics</text>
+      <text x="12" y="56" font-family="'Inter', sans-serif" font-size="10" fill="#00c9a7">&#10003; Risk Doughnut &amp; Trend Line</text>
+    </g>
+
+    <g transform="translate(14, 224)">
+      <rect width="182" height="74" rx="8" fill="#182052" stroke="rgba(78, 124, 255, 0.2)" stroke-width="1" />
+      <text x="12" y="22" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#fff">CSRF &amp; Input Guard</text>
+      <text x="12" y="40" font-family="'Inter', sans-serif" font-size="10" fill="#9aa3c7">Random 32-byte Hex Token</text>
+      <text x="12" y="56" font-family="'Inter', sans-serif" font-size="10" fill="#00c9a7">&#10003; Strict Origin Protection</text>
+    </g>
+
+    <g transform="translate(14, 310)">
+      <rect width="182" height="74" rx="8" fill="#182052" stroke="rgba(78, 124, 255, 0.2)" stroke-width="1" />
+      <text x="12" y="22" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#fff">Live Particle Canvas</text>
+      <text x="12" y="40" font-family="'Inter', sans-serif" font-size="10" fill="#9aa3c7">Interactive Constellation</text>
+      <text x="12" y="56" font-family="'Inter', sans-serif" font-size="10" fill="#00c9a7">&#10003; Glassmorphic Modals</text>
+    </g>
+  </g>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M 250,315 L 285,315" stroke="#4e7cff" stroke-width="2.5" stroke-dasharray="5,4" />
+  <polygon points="285,310 293,315 285,320" fill="#4e7cff" />
+
+  <!-- TIER 2: Application Controller Layer -->
+  <g transform="translate(290, 100)">
+    <rect width="200" height="430" rx="12" fill="url(#cardGrad1)" stroke="rgba(78, 124, 255, 0.25)" stroke-width="1.2" />
+    <rect width="200" height="36" rx="12" fill="rgba(78, 124, 255, 0.12)" />
+    <text x="16" y="24" font-family="'Inter', sans-serif" font-size="13" font-weight="700" fill="#4e7cff">2. FLASK APP CORE</text>
+
+    <g transform="translate(14, 52)">
+      <rect width="172" height="74" rx="8" fill="#182052" stroke="rgba(78, 124, 255, 0.2)" stroke-width="1" />
+      <text x="12" y="22" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#fff">Session Auth Engine</text>
+      <text x="12" y="40" font-family="'Inter', sans-serif" font-size="10" fill="#9aa3c7">bcrypt Blowfish Hashes</text>
+      <text x="12" y="56" font-family="'Inter', sans-serif" font-size="10" fill="#00c9a7">&#10003; Role-based RBAC</text>
+    </g>
+
+    <g transform="translate(14, 138)">
+      <rect width="172" height="74" rx="8" fill="#182052" stroke="rgba(78, 124, 255, 0.2)" stroke-width="1" />
+      <text x="12" y="22" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#fff">Scanner Controller</text>
+      <text x="12" y="40" font-family="'Inter', sans-serif" font-size="10" fill="#9aa3c7">/scan, /api/scan</text>
+      <text x="12" y="56" font-family="'Inter', sans-serif" font-size="10" fill="#00c9a7">&#10003; URL Normalization</text>
+    </g>
+
+    <g transform="translate(14, 224)">
+      <rect width="172" height="74" rx="8" fill="#182052" stroke="rgba(78, 124, 255, 0.2)" stroke-width="1" />
+      <text x="12" y="22" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#fff">Threat Intel &amp; Alerts</text>
+      <text x="12" y="40" font-family="'Inter', sans-serif" font-size="10" fill="#9aa3c7">Local Indicator Matcher</text>
+      <text x="12" y="56" font-family="'Inter', sans-serif" font-size="10" fill="#00c9a7">&#10003; Automatic Escalation</text>
+    </g>
+
+    <g transform="translate(14, 310)">
+      <rect width="172" height="74" rx="8" fill="#182052" stroke="rgba(78, 124, 255, 0.2)" stroke-width="1" />
+      <text x="12" y="22" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#fff">Audit &amp; Reporting</text>
+      <text x="12" y="40" font-family="'Inter', sans-serif" font-size="10" fill="#9aa3c7">Event Trail + CSV Exporter</text>
+      <text x="12" y="56" font-family="'Inter', sans-serif" font-size="10" fill="#00c9a7">&#10003; Diagnostic Modals</text>
+    </g>
+  </g>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M 490,315 L 525,315" stroke="#00c9a7" stroke-width="2.5" stroke-dasharray="5,4" />
+  <polygon points="525,310 533,315 525,320" fill="#00c9a7" />
+
+  <!-- TIER 3: Static Heuristics Engine -->
+  <g transform="translate(530, 100)">
+    <rect width="210" height="430" rx="12" fill="url(#cardGrad1)" stroke="rgba(0, 201, 167, 0.3)" stroke-width="1.2" />
+    <rect width="210" height="36" rx="12" fill="rgba(0, 201, 167, 0.12)" />
+    <text x="16" y="24" font-family="'Inter', sans-serif" font-size="13" font-weight="700" fill="#00c9a7">3. HEURISTIC ENGINE</text>
+
+    <g transform="translate(14, 52)">
+      <rect width="182" height="110" rx="8" fill="#182052" stroke="rgba(0, 201, 167, 0.2)" stroke-width="1" />
+      <text x="12" y="20" font-family="'Inter', sans-serif" font-size="11" font-weight="700" fill="#00f0ff">ZERO-EXECUTION PARSER</text>
+      <text x="12" y="38" font-family="'Inter', sans-serif" font-size="10" fill="#9aa3c7">&#8226; No HTTP Socket Connection</text>
+      <text x="12" y="54" font-family="'Inter', sans-serif" font-size="10" fill="#9aa3c7">&#8226; No DNS / Malware Fetch</text>
+      <text x="12" y="70" font-family="'Inter', sans-serif" font-size="10" fill="#9aa3c7">&#8226; Lexical Authority Analysis</text>
+      <text x="12" y="86" font-family="'Inter', sans-serif" font-size="10" fill="#9aa3c7">&#8226; RFC 3986 Normalization</text>
+    </g>
+
+    <g transform="translate(14, 172)">
+      <rect width="182" height="138" rx="8" fill="#182052" stroke="rgba(0, 201, 167, 0.2)" stroke-width="1" />
+      <text x="12" y="20" font-family="'Inter', sans-serif" font-size="11" font-weight="700" fill="#ffd166">10 EXPLAINABLE RULES</text>
+      <text x="12" y="38" font-family="'Inter', sans-serif" font-size="9.5" fill="#9aa3c7">1. IP Hostname (25 pts)</text>
+      <text x="12" y="52" font-family="'Inter', sans-serif" font-size="9.5" fill="#9aa3c7">2. Excessive Subdomains (15)</text>
+      <text x="12" y="66" font-family="'Inter', sans-serif" font-size="9.5" fill="#9aa3c7">3. Brand Typosquatting (25)</text>
+      <text x="12" y="80" font-family="'Inter', sans-serif" font-size="9.5" fill="#9aa3c7">4. High-Entropy Tokens (15)</text>
+      <text x="12" y="94" font-family="'Inter', sans-serif" font-size="9.5" fill="#9aa3c7">5. @-Sign Credential Trap (20)</text>
+      <text x="12" y="108" font-family="'Inter', sans-serif" font-size="9.5" fill="#9aa3c7">6. URL Shorteners (15)</text>
+      <text x="12" y="122" font-family="'Inter', sans-serif" font-size="9.5" fill="#9aa3c7">7. Dangerous TLD / Insecure (10)</text>
+    </g>
+
+    <g transform="translate(14, 320)">
+      <rect width="182" height="90" rx="8" fill="#182052" stroke="rgba(0, 201, 167, 0.2)" stroke-width="1" />
+      <text x="12" y="20" font-family="'Inter', sans-serif" font-size="11" font-weight="700" fill="#fff">RISK CLASSIFIER (0-100)</text>
+      <text x="12" y="38" font-family="'Inter', sans-serif" font-size="10" fill="#00c9a7">&#9632; 0–39: Low Risk (Safe)</text>
+      <text x="12" y="54" font-family="'Inter', sans-serif" font-size="10" fill="#ffd166">&#9632; 40–69: Medium Risk</text>
+      <text x="12" y="70" font-family="'Inter', sans-serif" font-size="10" fill="#ff4757">&#9632; 70–100: High Risk Alert</text>
+    </g>
+  </g>
+
+  <!-- Arrow 3 -> 4 -->
+  <path d="M 740,315 L 775,315" stroke="#7052ff" stroke-width="2.5" stroke-dasharray="5,4" />
+  <polygon points="775,310 783,315 775,320" fill="#7052ff" />
+
+  <!-- TIER 4: MongoDB Database Layer -->
+  <g transform="translate(780, 100)">
+    <rect width="180" height="430" rx="12" fill="url(#cardGrad1)" stroke="rgba(112, 82, 255, 0.35)" stroke-width="1.2" />
+    <rect width="180" height="36" rx="12" fill="rgba(112, 82, 255, 0.15)" />
+    <text x="16" y="24" font-family="'Inter', sans-serif" font-size="13" font-weight="700" fill="#9d86ff">4. MONGODB 8.3</text>
+
+    <!-- 6 Collections -->
+    <g transform="translate(12, 50)">
+      <rect width="156" height="52" rx="6" fill="#1a1c4e" stroke="rgba(112, 82, 255, 0.2)" stroke-width="1" />
+      <text x="10" y="20" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#fff">users</text>
+      <text x="10" y="38" font-family="'Inter', sans-serif" font-size="9.5" fill="#7888b5">Unique idx on username</text>
+    </g>
+
+    <g transform="translate(12, 110)">
+      <rect width="156" height="52" rx="6" fill="#1a1c4e" stroke="rgba(112, 82, 255, 0.2)" stroke-width="1" />
+      <text x="10" y="20" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#00f0ff">scan_history</text>
+      <text x="10" y="38" font-family="'Inter', sans-serif" font-size="9.5" fill="#7888b5">Idx: url, risk_level, date</text>
+    </g>
+
+    <g transform="translate(12, 170)">
+      <rect width="156" height="52" rx="6" fill="#1a1c4e" stroke="rgba(112, 82, 255, 0.2)" stroke-width="1" />
+      <text x="10" y="20" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#00c9a7">threat_intel</text>
+      <text x="10" y="38" font-family="'Inter', sans-serif" font-size="9.5" fill="#7888b5">Unique idx on indicator</text>
+    </g>
+
+    <g transform="translate(12, 230)">
+      <rect width="156" height="52" rx="6" fill="#1a1c4e" stroke="rgba(112, 82, 255, 0.2)" stroke-width="1" />
+      <text x="10" y="20" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#ff4757">security_alerts</text>
+      <text x="10" y="38" font-family="'Inter', sans-serif" font-size="9.5" fill="#7888b5">Idx: severity, status</text>
+    </g>
+
+    <g transform="translate(12, 290)">
+      <rect width="156" height="52" rx="6" fill="#1a1c4e" stroke="rgba(112, 82, 255, 0.2)" stroke-width="1" />
+      <text x="10" y="20" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#ffd166">detection_rules</text>
+      <text x="10" y="38" font-family="'Inter', sans-serif" font-size="9.5" fill="#7888b5">Custom heuristic weights</text>
+    </g>
+
+    <g transform="translate(12, 350)">
+      <rect width="156" height="52" rx="6" fill="#1a1c4e" stroke="rgba(112, 82, 255, 0.2)" stroke-width="1" />
+      <text x="10" y="20" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#9aa3c7">audit_logs</text>
+      <text x="10" y="38" font-family="'Inter', sans-serif" font-size="9.5" fill="#7888b5">Tamper-evident logs</text>
+    </g>
+  </g>
+</svg>

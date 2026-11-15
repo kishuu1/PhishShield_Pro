@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" width="200" height="160">
+  <defs>
+    <linearGradient id="shieldOkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00c9a7" />
+      <stop offset="100%" stop-color="#05856e" />
+    </linearGradient>
+  </defs>
+
+  <circle cx="100" cy="80" r="65" fill="#00c9a7" opacity="0.08" />
+
+  <!-- Outer Shield -->
+  <path d="M 100,32 L 138,48 C 138,88 118,114 100,126 C 82,114 62,88 62,48 Z" 
+        fill="#10183b" stroke="url(#shieldOkGrad)" stroke-width="2" />
+
+  <!-- Inner Soft Green Glow -->
+  <path d="M 100,42 L 130,55 C 130,85 114,106 100,116 C 86,106 70,85 70,55 Z" 
+        fill="rgba(0, 201, 167, 0.1)" />
+
+  <!-- Clean Checkmark -->
+  <path d="M 86,78 L 96,88 L 116,66" 
+        fill="none" stroke="#00c9a7" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- Small floating stars -->
+  <circle cx="48" cy="48" r="3" fill="#00c9a7" opacity="0.5" />
+  <circle cx="152" cy="108" r="3.5" fill="#4e7cff" opacity="0.5" />
+</svg>

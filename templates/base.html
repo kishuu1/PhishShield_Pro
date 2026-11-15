@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{% block title %}PhishShield Pro{% endblock %}</title>
+    <link rel="icon" type="image/svg+xml" href="/static/images/shield-icon.svg">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -520,8 +521,9 @@
     <!-- Sidebar -->
     <nav class="sidebar">
         <div class="sidebar-logo">
-            <span class="logo-icon">🛡️</span>
-            <span class="logo-text">PhishShield Pro</span>
+            <a href="/dashboard" style="display: flex; align-items: center; text-decoration: none;">
+                <img src="/static/images/logo.svg" alt="PhishShield Pro" style="height: 38px; max-width: 100%;">
+            </a>
         </div>
 
         <div class="sidebar-nav">
@@ -587,7 +589,7 @@
                 <div class="dropdown admin-dropdown">
                     <button class="btn admin-btn dropdown-toggle" type="button" id="adminMenuButton" data-bs-toggle="dropdown" aria-expanded="false" title="Admin Control Options">
                         <div class="admin-avatar">
-                            <i class="bi bi-shield-lock-fill"></i>
+                            <img src="/static/images/avatar-admin.svg" alt="Admin" style="width: 100%; height: 100%; border-radius: 50%; display: block;">
                         </div>
                         <div class="admin-meta text-start">
                             <span class="admin-name">{{ session.get('username', 'Admin') }}</span>
@@ -597,8 +599,8 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end admin-dropdown-menu" aria-labelledby="adminMenuButton">
                         <li class="admin-menu-header">
-                            <div class="user-title">
-                                <i class="bi bi-person-badge-fill text-primary"></i>
+                            <div class="user-title d-flex align-items-center gap-2">
+                                <img src="/static/images/avatar-admin.svg" alt="Admin" width="22" height="22" class="rounded-circle">
                                 <span>{{ session.get('username', 'Admin') }}</span>
                             </div>
                             <div class="user-status">
