@@ -1,6 +1,6 @@
 <div align="center">
 
-![PhishShield Pro Hero Banner](docs/images/banner.svg)
+<img src="docs/images/banner.svg" alt="PhishShield Pro Hero Banner" width="100%">
 
 # PhishShield Pro — Phishing URL Analysis & Threat Intelligence Platform
 
@@ -22,7 +22,7 @@
 
 <div align="center">
 
-![PhishShield Pro Dashboard Preview](docs/images/dashboard_preview.svg)
+<img src="docs/images/dashboard_preview.svg" alt="PhishShield Pro Dashboard Preview" width="100%">
 
 *PhishShield Pro Unified Threat Telemetry Dashboard — Real-time risk distribution, velocity sparklines, quick scanner, and active security triage queue.*
 
@@ -35,7 +35,7 @@
 ### System Architecture Diagram
 <div align="center">
 
-![PhishShield Pro System Architecture](docs/images/architecture.svg)
+<img src="docs/images/architecture.svg" alt="PhishShield Pro System Architecture" width="100%">
 
 </div>
 
@@ -212,7 +212,7 @@ To inspect or manage users directly in MongoDB Compass:
 ### Database Schema Architecture
 <div align="center">
 
-![MongoDB Schema Architecture](docs/images/mongodb_schema.svg)
+<img src="docs/images/mongodb_schema.svg" alt="MongoDB Schema Architecture" width="100%">
 
 </div>
 
@@ -336,7 +336,7 @@ Immutable record of security and administrative actions.
 ### Detection & Scoring Flowchart
 <div align="center">
 
-![Explainable Heuristic Detection & Scoring Pipeline](docs/images/heuristics_flow.svg)
+<img src="docs/images/heuristics_flow.svg" alt="Explainable Heuristic Detection &amp; Scoring Pipeline" width="100%">
 
 </div>
 
