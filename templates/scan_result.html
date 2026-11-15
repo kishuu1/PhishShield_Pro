@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+
+{% block title %}Scan Result — PhishShield Pro{% endblock %}
+{% block page_title %}Scan Result{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+
+        <!-- Risk Score Card -->
+        <div class="card mb-4">
+            <div class="card-body text-center py-5">
+                <div style="display: inline-flex; align-items: center; justify-content: center;
+                            width: 140px; height: 140px; border-radius: 50%;
+                            border: 6px solid {% if result.risk_level == 'Low' %}#00c9a7{% elif result.risk_level == 'Medium' %}#ffc107{% else %}#ff4757{% endif %};
+                            box-shadow: 0 0 40px {% if result.risk_level == 'Low' %}rgba(0, 201, 167, 0.2){% elif result.risk_level == 'Medium' %}rgba(255, 193, 7, 0.2){% else %}rgba(255, 71, 87, 0.25){% endif %};
+                            margin-bottom: 20px;">
+                    <span style="font-size: 48px; font-weight: 700;
+                                 color: {% if result.risk_level == 'Low' %}#00c9a7{% elif result.risk_level == 'Medium' %}#ffc107{% else %}#ff4757{% endif %};">
+                        {{ result.risk_score }}
+                    </span>
+                </div>
+
+                <div class="mb-3">
+                    <span class="badge px-4 py-2"
+                          style="font-size: 16px; border-radius: 8px; font-weight: 600;
+                                 {% if result.risk_level == 'Low' %}background-color: rgba(0, 201, 167, 0.15); color: #00c9a7;
+                                 {% elif result.risk_level == 'Medium' %}background-color: rgba(255, 193, 7, 0.15); color: #ffc107;
+                                 {% else %}background-color: rgba(255, 71, 87, 0.15); color: #ff4757;{% endif %}">
+                        <i class="bi {% if result.risk_level == 'Low' %}bi-shield-check{% elif result.risk_level == 'Medium' %}bi-exclamation-triangle{% else %}bi-shield-x{% endif %} me-2"></i>
+                        {{ result.risk_level }} Risk
+                    </span>
+                </div>
+
+                <p style="font-size: 13px; color: var(--text-secondary); max-width: 500px; margin: 0 auto;">
+                    {{ result.disclaimer }}
+                </p>
+            </div>
+        </div>
+
+        <!-- URL Details Card -->
+        <div class="card mb-4">
+            <div class="card-header d-flex align-items-center gap-2">
+                <i class="bi bi-link-45deg" style="color: var(--accent-blue);"></i>
+                URL Details
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); font-weight: 600; margin-bottom: 6px;">
+                                Scanned URL
+                            </div>
+                            <div style="font-size: 14px; word-break: break-all; background: var(--bg-card-alt); padding: 10px 14px; border-radius: 8px; font-family: monospace;">
+                                {{ result.url | e }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); font-weight: 600; margin-bottom: 6px;">
+                                Normalized URL
+                            </div>
+                            <div style="font-size: 14px; word-break: break-all; background: var(--bg-card-alt); padding: 10px 14px; border-radius: 8px; font-family: monospace;">
+                                {{ result.normalized_url | e }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); font-weight: 600; margin-bottom: 6px;">
+                                Scan Date
+                            </div>
+                            <div style="font-size: 14px;">
+                                <i class="bi bi-calendar3 me-2" style="color: var(--accent-blue);"></i>
+                                {{ scan_record.scanned_at.strftime('%B %d, %Y at %H:%M:%S') if scan_record and scan_record.scanned_at else 'N/A' }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); font-weight: 600; margin-bottom: 6px;">
+                                Scanned By
+                            </div>
+                            <div style="font-size: 14px;">
+                                <i class="bi bi-person me-2" style="color: var(--accent-blue);"></i>
+                                {{ scan_record.scanned_by if scan_record else session.get('username', 'Unknown') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Triggered Rules Card -->
+        <div class="card mb-4">
+            <div class="card-header d-flex align-items-center gap-2">
+                <i class="bi bi-exclamation-octagon" style="color: var(--accent-blue);"></i>
+                Triggered Rules
+            </div>
+            <div class="card-body p-0">
+                {% if result.triggered_rules and result.triggered_rules|length > 0 %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th style="padding-left: 20px;">Rule</th>
+                                    <th>Description</th>
+                                    <th class="text-center">Weight</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for rule in result.triggered_rules %}
+                                <tr>
+                                    <td style="padding-left: 20px;">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <i class="bi bi-exclamation-circle-fill"
+                                               style="color: {% if rule.weight >= 20 %}#ff4757{% elif rule.weight >= 15 %}#ffc107{% else %}#4e7cff{% endif %}; font-size: 14px;"></i>
+                                            <span style="font-weight: 600; font-size: 14px;">{{ rule.rule_name }}</span>
+                                        </div>
+                                    </td>
+                                    <td style="color: var(--text-secondary); font-size: 14px;">
+                                        {{ rule.description }}
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge px-3 py-1"
+                                              style="border-radius: 6px; font-size: 13px; font-weight: 600;
+                                                     {% if rule.weight >= 20 %}background: rgba(255, 71, 87, 0.15); color: #ff4757;
+                                                     {% elif rule.weight >= 15 %}background: rgba(255, 193, 7, 0.15); color: #ffc107;
+                                                     {% else %}background: rgba(78, 124, 255, 0.15); color: #4e7cff;{% endif %}">
+                                            +{{ rule.weight }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5" style="color: var(--text-secondary);">
+                        <i class="bi bi-shield-check" style="font-size: 44px; color: #00c9a7; opacity: 0.6;"></i>
+                        <p class="mt-3 mb-0" style="font-size: 15px;">No suspicious indicators detected</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Analysis Details Card -->
+        <div class="card mb-4">
+            <div class="card-header d-flex align-items-center gap-2">
+                <i class="bi bi-diagram-3" style="color: var(--accent-blue);"></i>
+                Analysis Details
+            </div>
+            <div class="card-body">
+                {% if result.analysis_details %}
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); font-weight: 600; margin-bottom: 6px;">
+                                Hostname
+                            </div>
+                            <div style="font-size: 14px; background: var(--bg-card-alt); padding: 10px 14px; border-radius: 8px; font-family: monospace;">
+                                {{ result.analysis_details.hostname | e }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); font-weight: 600; margin-bottom: 6px;">
+                                Scheme
+                            </div>
+                            <div style="font-size: 14px; background: var(--bg-card-alt); padding: 10px 14px; border-radius: 8px; font-family: monospace;">
+                                {{ result.analysis_details.scheme | e }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); font-weight: 600; margin-bottom: 6px;">
+                                Path
+                            </div>
+                            <div style="font-size: 14px; background: var(--bg-card-alt); padding: 10px 14px; border-radius: 8px; font-family: monospace;">
+                                {{ result.analysis_details.path | e if result.analysis_details.path else '/' }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); font-weight: 600; margin-bottom: 6px;">
+                                Query Parameters
+                            </div>
+                            <div style="font-size: 14px; background: var(--bg-card-alt); padding: 10px 14px; border-radius: 8px; font-family: monospace;">
+                                {{ result.analysis_details.query | e if result.analysis_details.query else 'None' }}
+                            </div>
+                        </div>
+                    </div>
+                    {% if result.analysis_details.port %}
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); font-weight: 600; margin-bottom: 6px;">
+                                Port
+                            </div>
+                            <div style="font-size: 14px; background: var(--bg-card-alt); padding: 10px 14px; border-radius: 8px; font-family: monospace;">
+                                {{ result.analysis_details.port }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if result.analysis_details.fragment %}
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); font-weight: 600; margin-bottom: 6px;">
+                                Fragment
+                            </div>
+                            <div style="font-size: 14px; background: var(--bg-card-alt); padding: 10px 14px; border-radius: 8px; font-family: monospace;">
+                                {{ result.analysis_details.fragment | e }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% else %}
+                    <p style="color: var(--text-secondary);">No analysis details available.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-flex gap-3 justify-content-center">
+            <a href="/scan" class="btn btn-primary px-4 py-2" style="border-radius: 10px; font-weight: 600;">
+                <i class="bi bi-search me-2"></i>Scan Another URL
+            </a>
+            <a href="/history" class="btn btn-outline-light px-4 py-2" style="border-radius: 10px; font-weight: 600; border-color: rgba(78, 124, 255, 0.2); color: var(--text-secondary);">
+                <i class="bi bi-clock-history me-2"></i>View History
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

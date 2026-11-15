@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Reports - PhishShield Pro{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="bi bi-file-earmark-bar-graph me-2"></i>Reports</h2>
+</div>
+
+<div class="row g-4">
+    <!-- Export Card -->
+    <div class="col-md-6">
+        <div class="card h-100" style="background: #131842; border: 1px solid #1a1f4e;">
+            <div class="card-header" style="background: #1a1f4e; border-bottom: 1px solid #252a5e;">
+                <h5 class="mb-0" style="color: #e8e8e8;"><i class="bi bi-download me-2"></i>Export Scan Data</h5>
+            </div>
+            <div class="card-body d-flex flex-column">
+                <p style="color: #a0a0b8;">
+                    Export your complete scan history as a CSV file. The export includes:
+                </p>
+                <ul style="color: #a0a0b8;">
+                    <li>Scanned URLs and normalized forms</li>
+                    <li>Risk scores and risk levels</li>
+                    <li>Triggered detection rules</li>
+                    <li>Scan timestamps and users</li>
+                </ul>
+                <div class="mt-auto">
+                    <a href="{{ url_for('export_csv') }}" class="btn btn-primary">
+                        <i class="bi bi-filetype-csv me-2"></i>Download CSV
+                    </a>
+                    <div class="mt-3">
+                        <small style="color: #6c6c8a;">
+                            <i class="bi bi-info-circle me-1"></i>
+                            File format: UTF-8 encoded CSV, compatible with Excel, Google Sheets, and other spreadsheet applications.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Summary Card -->
+    <div class="col-md-6">
+        <div class="card h-100" style="background: #131842; border: 1px solid #1a1f4e;">
+            <div class="card-header" style="background: #1a1f4e; border-bottom: 1px solid #252a5e;">
+                <h5 class="mb-0" style="color: #e8e8e8;"><i class="bi bi-clipboard-data me-2"></i>Report Summary</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-3" style="border-bottom: 1px solid #1a1f4e;">
+                        <span style="color: #a0a0b8;">Total Scans</span>
+                        <span class="fw-bold" style="color: #e8e8e8; font-size: 1.25rem;">{{ total_scans }}</span>
+                    </div>
+                    {% if date_range %}
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-3" style="border-bottom: 1px solid #1a1f4e;">
+                        <span style="color: #a0a0b8;">Date Range</span>
+                        <span style="color: #e8e8e8;">{{ date_range }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <h6 class="mb-3" style="color: #a0a0b8;">Risk Breakdown</h6>
+                <div class="row g-3">
+                    <div class="col-4">
+                        <div class="text-center p-3 rounded" style="background: rgba(0, 201, 167, 0.1); border: 1px solid rgba(0, 201, 167, 0.2);">
+                            <h4 class="mb-0" style="color: #00c9a7;">{{ safe_count }}</h4>
+                            <small style="color: #a0a0b8;">Safe</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-center p-3 rounded" style="background: rgba(255, 193, 7, 0.1); border: 1px solid rgba(255, 193, 7, 0.2);">
+                            <h4 class="mb-0" style="color: #ffc107;">{{ suspicious_count }}</h4>
+                            <small style="color: #a0a0b8;">Suspicious</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-center p-3 rounded" style="background: rgba(255, 71, 87, 0.1); border: 1px solid rgba(255, 71, 87, 0.2);">
+                            <h4 class="mb-0" style="color: #ff4757;">{{ high_risk_count }}</h4>
+                            <small style="color: #a0a0b8;">High Risk</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

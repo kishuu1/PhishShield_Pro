@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - PhishShield Pro{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="bi bi-gear me-2"></i>Settings</h2>
+</div>
+
+<!-- Detection Rules Card -->
+<div class="card" style="background: #131842; border: 1px solid #1a1f4e;">
+    <div class="card-header" style="background: #1a1f4e; border-bottom: 1px solid #252a5e;">
+        <h5 class="mb-0" style="color: #e8e8e8;"><i class="bi bi-sliders me-2"></i>Detection Rules</h5>
+    </div>
+    <div class="card-body">
+        <div class="mb-3 p-3 rounded" style="background: rgba(78, 124, 255, 0.08); border: 1px solid rgba(78, 124, 255, 0.2);">
+            <i class="bi bi-info-circle text-primary me-2"></i>
+            <span style="color: #a0a0b8;">Adjust the weight of each detection rule. Higher weights increase the risk score contribution. Set weight to 0 to effectively disable a rule.</span>
+        </div>
+
+        <form method="POST" action="{{ url_for('settings') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="table-responsive">
+                <table class="table align-middle mb-0" style="color: #e8e8e8;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #1a1f4e;">
+                            <th style="color: #a0a0b8; background: transparent;">Rule Name</th>
+                            <th style="color: #a0a0b8; background: transparent;">Description</th>
+                            <th style="color: #a0a0b8; background: transparent; width: 120px;">Weight</th>
+                            <th style="color: #a0a0b8; background: transparent; width: 80px; text-align: center;">Enabled</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rule in rules %}
+                        <tr style="border-bottom: 1px solid #1a1f4e;">
+                            <td>
+                                <strong style="color: #e8e8e8;">{{ rule.rule_name }}</strong>
+                                <input type="hidden" name="rule_id_{{ loop.index0 }}" value="{{ rule.rule_id }}">
+                            </td>
+                            <td style="color: #a0a0b8;">{{ rule.description }}</td>
+                            <td>
+                                <input type="number" class="form-control form-control-sm"
+                                       name="weight_{{ loop.index0 }}" value="{{ rule.weight }}"
+                                       min="0" max="100" step="1"
+                                       style="background: #0a0e27; border-color: #1a1f4e; color: #e8e8e8; width: 80px;">
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check d-flex justify-content-center">
+                                    <input type="checkbox" class="form-check-input"
+                                           name="enabled_{{ loop.index0 }}" value="1"
+                                           {{ 'checked' if rule.enabled }}
+                                           style="background-color: {{ '#4e7cff' if rule.enabled else '#0a0e27' }}; border-color: #1a1f4e;">
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <input type="hidden" name="rule_count" value="{{ rules|length }}">
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-lg me-1"></i>Save Settings
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

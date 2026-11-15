@@ -1,0 +1,803 @@
+{% extends "base.html" %}
+
+{% block title %}SOC Dashboard — PhishShield Pro{% endblock %}
+{% block page_title %}Security Operations Center{% endblock %}
+
+{% block content %}
+<style>
+    /* Dashboard specific advanced cyber styling */
+    .command-header-card {
+        background: linear-gradient(135deg, rgba(19, 24, 66, 0.9) 0%, rgba(13, 17, 55, 0.95) 100%);
+        border: 1px solid rgba(78, 124, 255, 0.25);
+        border-radius: 16px;
+        padding: 24px 28px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        margin-bottom: 24px;
+    }
+
+    .command-header-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #4e7cff, #00c9a7, #ffb830, #ff4757);
+    }
+
+    .command-title {
+        font-size: 20px;
+        font-weight: 800;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 6px;
+    }
+
+    .command-desc {
+        color: var(--text-secondary);
+        font-size: 13px;
+        margin-bottom: 0;
+    }
+
+    .telemetry-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 14px;
+    }
+
+    .telemetry-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+
+    .telemetry-chip.online {
+        background: rgba(0, 201, 167, 0.1);
+        border: 1px solid rgba(0, 201, 167, 0.3);
+        color: #00c9a7;
+    }
+
+    .telemetry-chip.secure {
+        background: rgba(78, 124, 255, 0.1);
+        border: 1px solid rgba(78, 124, 255, 0.3);
+        color: #4e7cff;
+    }
+
+    .telemetry-chip.monitoring {
+        background: rgba(255, 184, 48, 0.1);
+        border: 1px solid rgba(255, 184, 48, 0.3);
+        color: #ffb830;
+    }
+
+    /* Embedded Direct Quick Scanner */
+    .quick-scan-container {
+        background: #101538;
+        border: 1px solid rgba(78, 124, 255, 0.25);
+        border-radius: 14px;
+        padding: 16px 20px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .quick-scan-form {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .quick-scan-input-wrap {
+        flex: 1;
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .quick-scan-icon {
+        position: absolute;
+        left: 14px;
+        color: var(--accent-blue);
+        font-size: 16px;
+        pointer-events: none;
+    }
+
+    .quick-scan-input {
+        width: 100%;
+        padding: 12px 16px 12px 42px;
+        background: rgba(6, 9, 25, 0.85);
+        border: 1px solid rgba(78, 124, 255, 0.25);
+        border-radius: 10px;
+        color: #fff;
+        font-size: 14px;
+        transition: all 0.25s ease;
+    }
+
+    .quick-scan-input:focus {
+        outline: none;
+        border-color: var(--accent-blue);
+        box-shadow: 0 0 0 3px rgba(78, 124, 255, 0.25);
+        background: rgba(6, 9, 25, 0.95);
+    }
+
+    .btn-quick-scan {
+        padding: 12px 22px;
+        background: linear-gradient(135deg, var(--accent-blue), #3b68ea);
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        font-weight: 700;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+        transition: all 0.25s ease;
+        box-shadow: 0 4px 15px rgba(78, 124, 255, 0.35);
+    }
+
+    .btn-quick-scan:hover {
+        background: linear-gradient(135deg, #5b87ff, var(--accent-blue));
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(78, 124, 255, 0.5);
+        color: #fff;
+    }
+
+    .sample-links-bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 10px;
+        font-size: 12px;
+        color: var(--text-muted);
+        flex-wrap: wrap;
+    }
+
+    .sample-pill {
+        background: rgba(78, 124, 255, 0.08);
+        border: 1px solid rgba(78, 124, 255, 0.18);
+        color: var(--text-secondary);
+        padding: 2px 10px;
+        border-radius: 12px;
+        font-size: 11px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+    }
+
+    .sample-pill:hover {
+        background: rgba(78, 124, 255, 0.2);
+        color: #fff;
+        border-color: var(--accent-blue);
+    }
+
+    /* Enhanced Stat Cards */
+    .stat-card-advanced {
+        background: var(--bg-card);
+        border: 1px solid rgba(78, 124, 255, 0.15);
+        border-radius: 14px;
+        padding: 20px 22px;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .stat-card-advanced:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+        border-color: rgba(78, 124, 255, 0.35);
+    }
+
+    .stat-card-advanced::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+    }
+
+    .stat-card-advanced.blue::after { background: #4e7cff; }
+    .stat-card-advanced.green::after { background: #00c9a7; }
+    .stat-card-advanced.yellow::after { background: #ffb830; }
+    .stat-card-advanced.red::after { background: #ff4757; }
+
+    .stat-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+    }
+
+    .stat-icon-wrap {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+    }
+
+    .stat-icon-wrap.blue { background: rgba(78, 124, 255, 0.12); color: #4e7cff; }
+    .stat-icon-wrap.green { background: rgba(0, 201, 167, 0.12); color: #00c9a7; }
+    .stat-icon-wrap.yellow { background: rgba(255, 184, 48, 0.12); color: #ffb830; }
+    .stat-icon-wrap.red { background: rgba(255, 71, 87, 0.12); color: #ff4757; }
+
+    .stat-number {
+        font-size: 30px;
+        font-weight: 800;
+        color: #fff;
+        line-height: 1;
+        margin-bottom: 4px;
+    }
+
+    .stat-label-text {
+        font-size: 12px;
+        color: var(--text-secondary);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+    }
+
+    .stat-progress-bar {
+        height: 4px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 2px;
+        overflow: hidden;
+        margin-top: 12px;
+    }
+
+    .stat-progress-fill {
+        height: 100%;
+        border-radius: 2px;
+    }
+
+    /* Quick Action Buttons Hub */
+    .quick-actions-bar {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+    }
+
+    .btn-action-tile {
+        flex: 1;
+        min-width: 140px;
+        background: #131842;
+        border: 1px solid rgba(78, 124, 255, 0.2);
+        border-radius: 12px;
+        padding: 12px 14px;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .btn-action-tile i {
+        font-size: 18px;
+        color: var(--accent-blue);
+        transition: transform 0.2s;
+    }
+
+    .btn-action-tile:hover {
+        background: rgba(78, 124, 255, 0.15);
+        border-color: var(--accent-blue);
+        color: #fff;
+        transform: translateY(-2px);
+    }
+
+    .btn-action-tile:hover i {
+        transform: scale(1.15);
+    }
+</style>
+
+<!-- SOC Command Center Header -->
+<div class="command-header-card">
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+        <div>
+            <div class="command-title">
+                <i class="bi bi-shield-shaded text-primary"></i>
+                <span>PhishShield Pro &bull; Security Operations Command</span>
+            </div>
+            <p class="command-desc">
+                Explainable heuristic analysis engine monitoring for deceptive domains, spoofed authorities, and credential harvesting threats.
+            </p>
+        </div>
+        <div>
+            <div class="telemetry-chip {% if high_risk_count > 0 %}monitoring{% else %}online{% endif %}">
+                <span class="pulse-dot"></span>
+                <span>{% if high_risk_count > 0 %}{{ high_risk_count }} HIGH-RISK THREATS DETECTED{% else %}POSTURE: OPTIMAL DEFENSE{% endif %}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active telemetry indicators -->
+    <div class="telemetry-chips">
+        <span class="telemetry-chip online"><i class="bi bi-hdd-network"></i> MongoDB Engine: Online</span>
+        <span class="telemetry-chip secure"><i class="bi bi-shield-check"></i> Zero-Execution Sandbox: Active</span>
+        <span class="telemetry-chip secure"><i class="bi bi-cpu"></i> 10 Heuristic Vectors Enabled</span>
+        <span class="telemetry-chip online"><i class="bi bi-database-check"></i> Local Threat Intel Synced</span>
+    </div>
+</div>
+
+<!-- Direct Embedded Quick Scanner -->
+<div class="quick-scan-container">
+    <form action="/scan" method="POST" class="quick-scan-form" id="quickScanForm">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="quick-scan-input-wrap">
+            <i class="bi bi-link-45deg quick-scan-icon"></i>
+            <input type="text" class="quick-scan-input" id="quickScanInput" name="url"
+                   placeholder="Direct Scanner: Enter any URL or hostname to immediately compute heuristic risk score..." required autocomplete="off">
+        </div>
+        <button type="submit" class="btn-quick-scan" id="quickScanBtn">
+            <i class="bi bi-shield-check"></i>
+            <span>Analyze URL</span>
+        </button>
+    </form>
+
+    <div class="sample-links-bar">
+        <span><i class="bi bi-cursor-fill me-1"></i>Quick Test Samples:</span>
+        <a class="sample-pill" href="javascript:void(0)" onclick="populateQuickScan('https://www.google.com')">
+            <i class="bi bi-check-circle-fill text-success me-1"></i>Google (Safe)
+        </a>
+        <a class="sample-pill" href="javascript:void(0)" onclick="populateQuickScan('http://tinyurl.com/free-cloud-storage')">
+            <i class="bi bi-exclamation-triangle-fill text-warning me-1"></i>Shortener (Suspicious)
+        </a>
+        <a class="sample-pill" href="javascript:void(0)" onclick="populateQuickScan('http://admin@192.168.1.100/login/verify-banking-account-update?token=%3Cscript%3E')">
+            <i class="bi bi-shield-x text-danger me-1"></i>IP Phish (High Risk)
+        </a>
+        <a class="sample-pill" href="javascript:void(0)" onclick="populateQuickScan('http://secure-login.update-banking.tk/signin')">
+            <i class="bi bi-bug-fill text-danger me-1"></i>Threat Intel Hit (.tk)
+        </a>
+    </div>
+</div>
+
+<!-- Quick Action Shortcuts Hub -->
+<div class="quick-actions-bar">
+    <a href="/scan" class="btn-action-tile">
+        <i class="bi bi-search"></i>
+        <span>Full URL Scanner</span>
+    </a>
+    <a href="/history" class="btn-action-tile">
+        <i class="bi bi-clock-history"></i>
+        <span>Audit History</span>
+    </a>
+    <a href="/threat-intelligence" class="btn-action-tile">
+        <i class="bi bi-shield-exclamation text-warning"></i>
+        <span>Threat Intel Hub</span>
+    </a>
+    <a href="/alerts" class="btn-action-tile">
+        <i class="bi bi-bell text-danger"></i>
+        <span>Security Alerts</span>
+    </a>
+    <a href="/reports/export/csv" class="btn-action-tile">
+        <i class="bi bi-download text-success"></i>
+        <span>Export CSV Report</span>
+    </a>
+</div>
+
+<!-- Advanced KPI Stat Cards Row -->
+<div class="row g-4 mb-4">
+    <!-- Total Scans -->
+    <div class="col-xl-3 col-md-6">
+        <div class="stat-card-advanced blue">
+            <div class="stat-top">
+                <div>
+                    <div class="stat-number">{{ total_scans }}</div>
+                    <div class="stat-label-text">Total Analyzed</div>
+                </div>
+                <div class="stat-icon-wrap blue">
+                    <i class="bi bi-search"></i>
+                </div>
+            </div>
+            <div style="font-size: 11px; color: var(--text-muted);">
+                <i class="bi bi-activity me-1 text-primary"></i>Active scanning history records
+            </div>
+            <div class="stat-progress-bar">
+                <div class="stat-progress-fill" style="width: 100%; background: #4e7cff;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Safe URLs -->
+    <div class="col-xl-3 col-md-6">
+        <div class="stat-card-advanced green">
+            <div class="stat-top">
+                <div>
+                    <div class="stat-number" style="color: #00c9a7;">{{ safe_count }}</div>
+                    <div class="stat-label-text">Low Risk / Safe</div>
+                </div>
+                <div class="stat-icon-wrap green">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+            </div>
+            <div style="font-size: 11px; color: var(--text-muted);">
+                <i class="bi bi-check-circle me-1 text-success"></i>
+                {% if total_scans > 0 %}
+                    {{ '%.0f'|format(safe_count / total_scans * 100) }}% of total volume
+                {% else %}
+                    0% of volume
+                {% endif %}
+            </div>
+            <div class="stat-progress-bar">
+                <div class="stat-progress-fill" style="width: {% if total_scans > 0 %}{{ (safe_count / total_scans * 100)|int }}{% else %}0{% endif %}%; background: #00c9a7;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Suspicious -->
+    <div class="col-xl-3 col-md-6">
+        <div class="stat-card-advanced yellow">
+            <div class="stat-top">
+                <div>
+                    <div class="stat-number" style="color: #ffb830;">{{ suspicious_count }}</div>
+                    <div class="stat-label-text">Medium Risk</div>
+                </div>
+                <div class="stat-icon-wrap yellow">
+                    <i class="bi bi-exclamation-triangle"></i>
+                </div>
+            </div>
+            <div style="font-size: 11px; color: var(--text-muted);">
+                <i class="bi bi-flag me-1 text-warning"></i>
+                {% if total_scans > 0 %}
+                    {{ '%.0f'|format(suspicious_count / total_scans * 100) }}% requiring caution
+                {% else %}
+                    0% of volume
+                {% endif %}
+            </div>
+            <div class="stat-progress-bar">
+                <div class="stat-progress-fill" style="width: {% if total_scans > 0 %}{{ (suspicious_count / total_scans * 100)|int }}{% else %}0{% endif %}%; background: #ffb830;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- High Risk -->
+    <div class="col-xl-3 col-md-6">
+        <div class="stat-card-advanced red">
+            <div class="stat-top">
+                <div>
+                    <div class="stat-number" style="color: #ff4757;">{{ high_risk_count }}</div>
+                    <div class="stat-label-text">High Risk Threats</div>
+                </div>
+                <div class="stat-icon-wrap red">
+                    <i class="bi bi-shield-x"></i>
+                </div>
+            </div>
+            <div style="font-size: 11px; color: var(--text-muted);">
+                <i class="bi bi-shield-slash me-1 text-danger"></i>
+                {% if total_scans > 0 %}
+                    {{ '%.0f'|format(high_risk_count / total_scans * 100) }}% critical threat hits
+                {% else %}
+                    0% of volume
+                {% endif %}
+            </div>
+            <div class="stat-progress-bar">
+                <div class="stat-progress-fill" style="width: {% if total_scans > 0 %}{{ (high_risk_count / total_scans * 100)|int }}{% else %}0{% endif %}%; background: #ff4757;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row -->
+<div class="row g-4 mb-4">
+    <!-- Risk Distribution Chart -->
+    <div class="col-lg-5">
+        <div class="card h-100">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-pie-chart" style="color: var(--accent-blue);"></i>
+                    <span>Risk Classification Distribution</span>
+                </div>
+                <span class="badge" style="background: rgba(78, 124, 255, 0.15); color: #4e7cff; font-size: 11px;">Aggregated</span>
+            </div>
+            <div class="card-body d-flex align-items-center justify-content-center" style="min-height: 290px;">
+                {% if total_scans > 0 %}
+                    <canvas id="riskChart" style="max-height: 270px;"></canvas>
+                {% else %}
+                    <div class="text-center py-4" style="color: var(--text-secondary);">
+                        <i class="bi bi-pie-chart" style="font-size: 48px; opacity: 0.3;"></i>
+                        <p class="mt-2 mb-0">No scan telemetry recorded yet</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Daily Scanning Activity Line Chart -->
+    <div class="col-lg-7">
+        <div class="card h-100">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-graph-up" style="color: var(--accent-blue);"></i>
+                    <span>Daily Threat Inspection Velocity (7 Days)</span>
+                </div>
+                <span class="badge" style="background: rgba(0, 201, 167, 0.15); color: #00c9a7; font-size: 11px;">Live Trend</span>
+            </div>
+            <div class="card-body" style="min-height: 290px;">
+                {% if total_scans > 0 %}
+                    <canvas id="activityChart" style="width: 100%; height: 260px;"></canvas>
+                {% else %}
+                    <div class="text-center py-5" style="color: var(--text-secondary);">
+                        <i class="bi bi-graph-up" style="font-size: 48px; opacity: 0.3;"></i>
+                        <p class="mt-2 mb-0">No activity data available yet</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bottom Row: Recent Scans & Security Alerts Stream -->
+<div class="row g-4">
+    <!-- Recent Scans Table -->
+    <div class="col-lg-7">
+        <div class="card h-100">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-clock-history" style="color: var(--accent-blue);"></i>
+                    <span>Recent Heuristic Scans</span>
+                </div>
+                <a href="/history" class="btn btn-sm btn-outline-primary" style="font-size: 11px; padding: 3px 10px;">
+                    View All <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+            <div class="card-body p-0">
+                {% if recent_scans and recent_scans|length > 0 %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th style="padding-left: 20px;">Target URL</th>
+                                    <th>Risk Level</th>
+                                    <th>Score</th>
+                                    <th>Date</th>
+                                    <th class="text-end" style="padding-right: 20px;">Inspect</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for scan in recent_scans %}
+                                <tr>
+                                    <td style="padding-left: 20px; max-width: 250px;">
+                                        <div class="d-inline-block text-truncate" style="max-width: 240px; font-family: monospace; font-size: 12px;" title="{{ scan.url }}">
+                                            {{ scan.url }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-{{ scan.risk_level|lower }}">
+                                            {{ scan.risk_level }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span style="font-weight: 700; font-size: 13px; color: {% if scan.risk_score <= 33 %}#00c9a7{% elif scan.risk_score <= 66 %}#ffb830{% else %}#ff4757{% endif %};">
+                                            {{ scan.risk_score }}
+                                        </span>
+                                    </td>
+                                    <td style="color: var(--text-secondary); font-size: 12px; white-space: nowrap;">
+                                        {{ scan.scanned_at.strftime('%b %d, %H:%M') if scan.scanned_at else 'N/A' }}
+                                    </td>
+                                    <td class="text-end" style="padding-right: 20px;">
+                                        <a href="/scan/result/{{ scan._id }}" class="btn btn-sm btn-outline-light" style="padding: 2px 8px; font-size: 11px; border-color: rgba(78, 124, 255, 0.2);">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5" style="color: var(--text-secondary);">
+                        <i class="bi bi-inbox" style="font-size: 36px; opacity: 0.3;"></i>
+                        <p class="mt-2 mb-0" style="font-size: 13px;">No scans recorded yet</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Security Alerts Queue -->
+    <div class="col-lg-5">
+        <div class="card h-100">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-bell" style="color: #ff4757;"></i>
+                    <span>Triage Alert Queue</span>
+                </div>
+                <a href="/alerts" class="btn btn-sm btn-outline-primary" style="font-size: 11px; padding: 3px 10px;">
+                    Review All <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+            <div class="card-body p-3">
+                {% if recent_alerts and recent_alerts|length > 0 %}
+                    <div class="d-flex flex-column gap-2">
+                        {% for alert in recent_alerts %}
+                        <div class="p-3 rounded" style="background: rgba(16, 21, 56, 0.9); border: 1px solid rgba(78, 124, 255, 0.15); border-left: 4px solid {% if alert.severity == 'High' %}#ff4757{% else %}#ffb830{% endif %};">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="badge" style="background: {% if alert.severity == 'High' %}rgba(255, 71, 87, 0.15){% else %}rgba(255, 184, 48, 0.15){% endif %}; color: {% if alert.severity == 'High' %}#ff4757{% else %}#ffb830{% endif %}; font-size: 10px;">
+                                    {{ alert.severity }} Alert
+                                </span>
+                                <small style="color: var(--text-muted); font-size: 11px;">
+                                    {{ alert.created_at.strftime('%b %d, %H:%M') if alert.created_at else '' }}
+                                </small>
+                            </div>
+                            <div style="font-size: 12px; font-family: monospace; color: #fff; word-break: break-all; margin-bottom: 4px;">
+                                {{ alert.url[:55] }}{% if alert.url|length > 55 %}...{% endif %}
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span style="font-size: 11px; color: var(--text-secondary);">Score: <strong style="color: {% if alert.risk_score >= 67 %}#ff4757{% else %}#ffb830{% endif %};">{{ alert.risk_score }}/100</strong></span>
+                                <a href="/alerts" class="btn btn-sm btn-outline-warning" style="font-size: 10px; padding: 2px 8px;">Triage</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-5" style="color: var(--text-secondary);">
+                        <i class="bi bi-shield-check" style="font-size: 36px; color: #00c9a7; opacity: 0.5;"></i>
+                        <p class="mt-2 mb-0" style="font-size: 13px;">No unreviewed security alerts</p>
+                        <small style="color: var(--text-muted);">Platform security perimeter is calm</small>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Quick URL fill helper
+    function populateQuickScan(targetUrl) {
+        const inp = document.getElementById('quickScanInput');
+        if (inp) {
+            inp.value = targetUrl;
+            inp.focus();
+            // Flash input visually
+            inp.style.borderColor = '#00c9a7';
+            inp.style.boxShadow = '0 0 15px rgba(0, 201, 167, 0.4)';
+            setTimeout(() => {
+                inp.style.borderColor = '';
+                inp.style.boxShadow = '';
+            }, 600);
+        }
+    }
+
+    // Quick scan form loading state
+    const quickForm = document.getElementById('quickScanForm');
+    if (quickForm) {
+        quickForm.addEventListener('submit', function() {
+            const btn = document.getElementById('quickScanBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Analyzing...';
+        });
+    }
+
+    {% if total_scans > 0 %}
+    // Risk Distribution Doughnut Chart
+    const riskCtx = document.getElementById('riskChart');
+    if (riskCtx) {
+        const riskData = {
+            labels: ['Low Risk (Safe)', 'Medium Risk (Suspicious)', 'High Risk (Malicious)'],
+            datasets: [{
+                data: [{{ safe_count }}, {{ suspicious_count }}, {{ high_risk_count }}],
+                backgroundColor: ['#00c9a7', '#ffb830', '#ff4757'],
+                borderColor: '#131842',
+                borderWidth: 3,
+                hoverBorderColor: '#fff',
+                hoverBorderWidth: 3,
+                hoverOffset: 6
+            }]
+        };
+
+        new Chart(riskCtx, {
+            type: 'doughnut',
+            data: riskData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 16,
+                            usePointStyle: true,
+                            pointStyleWidth: 10,
+                            color: '#9aa3c7',
+                            font: { family: 'Inter', size: 11, weight: '500' }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const total = {{ total_scans }};
+                                const val = context.raw || 0;
+                                const pct = total > 0 ? ((val / total) * 100).toFixed(1) : 0;
+                                return ` ${context.label}: ${val} (${pct}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Daily Scanning Activity Line Chart with Neon Gradient
+    const actCtx = document.getElementById('activityChart');
+    if (actCtx) {
+        const ctx2d = actCtx.getContext('2d');
+        const gradient = ctx2d.createLinearGradient(0, 0, 0, 260);
+        gradient.addColorStop(0, 'rgba(78, 124, 255, 0.35)');
+        gradient.addColorStop(1, 'rgba(78, 124, 255, 0.0)');
+
+        const activityLabels = {{ daily_labels|tojson }};
+        const activityData = {{ daily_counts|tojson }};
+
+        new Chart(actCtx, {
+            type: 'line',
+            data: {
+                labels: activityLabels,
+                datasets: [{
+                    label: 'Analyzed URLs',
+                    data: activityData,
+                    borderColor: '#4e7cff',
+                    backgroundColor: gradient,
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.35,
+                    pointBackgroundColor: '#00d2d3',
+                    pointBorderColor: '#131842',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#9aa3c7', font: { family: 'Inter', size: 11 } }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1,
+                            color: '#9aa3c7',
+                            font: { family: 'Inter', size: 11 }
+                        },
+                        grid: {
+                            color: 'rgba(78, 124, 255, 0.08)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#101538',
+                        titleColor: '#fff',
+                        bodyColor: '#4e7cff',
+                        borderColor: 'rgba(78, 124, 255, 0.3)',
+                        borderWidth: 1,
+                        padding: 10
+                    }
+                }
+            }
+        });
+    }
+    {% endif %}
+</script>
+{% endblock %}

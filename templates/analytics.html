@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics - PhishShield Pro{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="bi bi-graph-up me-2"></i>Analytics</h2>
+</div>
+
+<!-- Date Filter Bar -->
+<div class="card mb-4" style="background: #131842; border: 1px solid #1a1f4e;">
+    <div class="card-body py-3">
+        <form method="GET" action="{{ url_for('analytics') }}" class="row g-3 align-items-end">
+            <div class="col-auto">
+                <label for="date_from" class="form-label mb-1" style="color: #a0a0b8; font-size: 0.85rem;">From</label>
+                <input type="date" class="form-control" id="date_from" name="date_from"
+                       value="{{ request.args.get('date_from', '') }}"
+                       style="background: #0a0e27; border-color: #1a1f4e; color: #e8e8e8;">
+            </div>
+            <div class="col-auto">
+                <label for="date_to" class="form-label mb-1" style="color: #a0a0b8; font-size: 0.85rem;">To</label>
+                <input type="date" class="form-control" id="date_to" name="date_to"
+                       value="{{ request.args.get('date_to', '') }}"
+                       style="background: #0a0e27; border-color: #1a1f4e; color: #e8e8e8;">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-funnel me-1"></i>Apply
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Stats Cards Row -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card h-100" style="background: #131842; border: 1px solid #1a1f4e;">
+            <div class="card-body text-center">
+                <div class="mb-2">
+                    <i class="bi bi-search" style="font-size: 1.5rem; color: #4e7cff;"></i>
+                </div>
+                <h3 class="mb-1" style="color: #e8e8e8;">{{ total_scans }}</h3>
+                <small style="color: #a0a0b8;">Total Scans</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100" style="background: #131842; border: 1px solid #1a1f4e;">
+            <div class="card-body text-center">
+                <div class="mb-2">
+                    <i class="bi bi-speedometer2" style="font-size: 1.5rem; color: #ffc107;"></i>
+                </div>
+                <h3 class="mb-1" style="color: #e8e8e8;">{{ '%.1f'|format(avg_risk_score) }}</h3>
+                <small style="color: #a0a0b8;">Average Risk Score</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100" style="background: #131842; border: 1px solid #1a1f4e;">
+            <div class="card-body text-center">
+                <div class="mb-2">
+                    <i class="bi bi-exclamation-triangle" style="font-size: 1.5rem; color: #ff4757;"></i>
+                </div>
+                <h3 class="mb-1" style="color: #e8e8e8;">{{ high_risk_percentage }}%</h3>
+                <small style="color: #a0a0b8;">High Risk Percentage</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100" style="background: #131842; border: 1px solid #1a1f4e;">
+            <div class="card-body text-center">
+                <div class="mb-2">
+                    <i class="bi bi-bell" style="font-size: 1.5rem; color: #00c9a7;"></i>
+                </div>
+                <h3 class="mb-1" style="color: #e8e8e8;">{{ total_alerts }}</h3>
+                <small style="color: #a0a0b8;">Total Alerts</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row 1 -->
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card h-100" style="background: #131842; border: 1px solid #1a1f4e;">
+            <div class="card-header" style="background: #1a1f4e; border-bottom: 1px solid #252a5e;">
+                <h5 class="mb-0" style="color: #e8e8e8;"><i class="bi bi-pie-chart me-2"></i>Risk Distribution</h5>
+            </div>
+            <div class="card-body d-flex align-items-center justify-content-center">
+                <canvas id="riskPieChart" style="max-height: 300px;"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100" style="background: #131842; border: 1px solid #1a1f4e;">
+            <div class="card-header" style="background: #1a1f4e; border-bottom: 1px solid #252a5e;">
+                <h5 class="mb-0" style="color: #e8e8e8;"><i class="bi bi-graph-up me-2"></i>Daily Scan Trend</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="dailyTrendChart" style="max-height: 300px;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row 2 -->
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card h-100" style="background: #131842; border: 1px solid #1a1f4e;">
+            <div class="card-header" style="background: #1a1f4e; border-bottom: 1px solid #252a5e;">
+                <h5 class="mb-0" style="color: #e8e8e8;"><i class="bi bi-bar-chart me-2"></i>Top Triggered Rules</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="rulesChart" style="max-height: 300px;"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100" style="background: #131842; border: 1px solid #1a1f4e;">
+            <div class="card-header" style="background: #1a1f4e; border-bottom: 1px solid #252a5e;">
+                <h5 class="mb-0" style="color: #e8e8e8;"><i class="bi bi-clock-history me-2"></i>Scans by Hour of Day</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="hourlyChart" style="max-height: 300px;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    Chart.defaults.color = '#a0a0b8';
+    Chart.defaults.borderColor = '#1a1f4e';
+
+    // Risk Distribution Pie Chart
+    const riskData = {{ risk_distribution|tojson }};
+    new Chart(document.getElementById('riskPieChart'), {
+        type: 'pie',
+        data: {
+            labels: Object.keys(riskData).map(k => k.charAt(0).toUpperCase() + k.slice(1)),
+            datasets: [{
+                data: Object.values(riskData),
+                backgroundColor: ['#00c9a7', '#ffc107', '#ff4757'],
+                borderColor: '#131842',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { color: '#a0a0b8', padding: 15 }
+                }
+            }
+        }
+    });
+
+    // Daily Scan Trend Line Chart
+    const dailyLabels = {{ daily_trend_labels|tojson }};
+    const dailyCounts = {{ daily_trend_counts|tojson }};
+    new Chart(document.getElementById('dailyTrendChart'), {
+        type: 'line',
+        data: {
+            labels: dailyLabels,
+            datasets: [{
+                label: 'Scans',
+                data: dailyCounts,
+                borderColor: '#4e7cff',
+                backgroundColor: 'rgba(78, 124, 255, 0.1)',
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: '#4e7cff',
+                pointBorderColor: '#4e7cff',
+                pointRadius: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                x: {
+                    grid: { color: 'rgba(26, 31, 78, 0.5)' },
+                    ticks: { color: '#a0a0b8', maxRotation: 45 }
+                },
+                y: {
+                    grid: { color: 'rgba(26, 31, 78, 0.5)' },
+                    ticks: { color: '#a0a0b8', stepSize: 1 },
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+
+    // Top Triggered Rules Horizontal Bar Chart
+    const rulesLabels = {{ top_rules_labels|tojson }};
+    const rulesCounts = {{ top_rules_counts|tojson }};
+    new Chart(document.getElementById('rulesChart'), {
+        type: 'bar',
+        data: {
+            labels: rulesLabels,
+            datasets: [{
+                label: 'Times Triggered',
+                data: rulesCounts,
+                backgroundColor: 'rgba(78, 124, 255, 0.6)',
+                borderColor: '#4e7cff',
+                borderWidth: 1,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                x: {
+                    grid: { color: 'rgba(26, 31, 78, 0.5)' },
+                    ticks: { color: '#a0a0b8', stepSize: 1 },
+                    beginAtZero: true
+                },
+                y: {
+                    grid: { display: false },
+                    ticks: { color: '#a0a0b8' }
+                }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+
+    // Scans by Hour of Day Bar Chart
+    const hourlyLabels = {{ hourly_labels|tojson }};
+    const hourlyCounts = {{ hourly_counts|tojson }};
+    new Chart(document.getElementById('hourlyChart'), {
+        type: 'bar',
+        data: {
+            labels: hourlyLabels,
+            datasets: [{
+                label: 'Scans',
+                data: hourlyCounts,
+                backgroundColor: 'rgba(0, 201, 167, 0.6)',
+                borderColor: '#00c9a7',
+                borderWidth: 1,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                x: {
+                    grid: { color: 'rgba(26, 31, 78, 0.5)' },
+                    ticks: { color: '#a0a0b8' }
+                },
+                y: {
+                    grid: { color: 'rgba(26, 31, 78, 0.5)' },
+                    ticks: { color: '#a0a0b8', stepSize: 1 },
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+</script>
+{% endblock %}
