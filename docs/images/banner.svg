@@ -135,3 +135,4 @@
   <!-- Subtle bottom border neon bar -->
   <line x1="0" y1="378" x2="1200" y2="378" stroke="url(#cyanNeon)" stroke-width="2" />
 </svg>
+
